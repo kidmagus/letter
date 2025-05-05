@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Our Love Carousel</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: 'Segoe UI', sans-serif;
+      background: #fff0f5;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      color: #d6336c;
+      margin-bottom: 20px;
+      text-align: center;
+      animation: fadeIn 1.5s ease;
+    }
+
+    .carousel {
+      position: relative;
+      width: 100%;
+      max-width: 1200px;    /* desktop max width */
+      aspect-ratio: 16 / 9; /* desktop aspect ratio */
+      overflow: hidden;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      margin-bottom: 20px;
+    }
+
+    .slides {
+      display: flex;
+      height: 100%;
+      transition: transform 0.8s ease;
+    }
+
+    .slide {
+      position: relative;
+      min-width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .overlay-message {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      background: rgba(0,0,0,0.5);
+      color: #fff;
+      padding: 16px;
+      border-radius: 8px;
+      font-size: 16px;
+      line-height: 1.5;
+      animation: fadeIn 1s ease;
+    }
+
+    .signature {
+      text-align: right;
+      font-style: italic;
+      color: #e25555;
+      margin-top: 8px;
+    }
+
+    .nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2rem;
+      color: #e25252;
+      padding: 8px 12px;
+      border-radius: 50%;
+      cursor: pointer;
+      user-select: none;
+    }
+    .nav.left { left: 10px; }
+    .nav.right { right: 10px; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* MOBILE OVERRIDE */
+    @media (max-width: 600px) {
+      .carousel {
+        aspect-ratio: unset; /* remove ratio */
+        height: 50vh;        /* make it taller */
+      }
+      .overlay-message {
+        font-size: 14px;
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Our Memories Together</h1>
+
+  <div class="carousel" id="carousel">
+    <div class="slides" id="slides">
+      
+      <!-- Slide 1 -->
+      <div class="slide" style="background-image: url('https://i.postimg.cc/PfLLYC8d/1.jpg');">
+        <div class="overlay-message">
+          <p>Ingat sa Canada, sana wala kang mahanap na puti. Hintayin mo akong makapunta dyan!!</p>
+          <p class="signature">Forever yours,<br>Joshua Garcia</p>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="slide" style="background-image: url('https://i.postimg.cc/XNTr8nwd/2.jpg');">
+        <div class="overlay-message">
+          <p>Wag kang iiyak, mabilisang code lang 'to. Kumbaga ano to. Same-day edit! Basta ingat ka palagi and always akong andyan para sayo. Hindi ko na alam sasabihin ko.</p>
+          <p class="signature">Always and forever,<br>Joshua Garcia</p>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="slide" style="background-image: url('https://i.postimg.cc/Wb2Qxk6v/3.jpg');">
+        <div class="overlay-message">
+          <p>Dahil first time ko gagawin to. And you know na mamimiss kita palagi!!  Ingat sa SUV sa Naia. Next time, boracay tayo. No need for long message. Hindi naman maghihiwalay. Takecare always!</p>
+          <p class="signature">Yours beyond measure,<br>Joshua Garcia</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="nav left" onclick="prevSlide()">&#10094;</div>
+    <div class="nav right" onclick="nextSlide()">&#10095;</div>
+  </div>
+
+  <script>
+    let currentIndex = 0;
+    const slidesEl = document.getElementById('slides');
+    const total = slidesEl.children.length;
+
+    function showSlide(i) {
+      slidesEl.style.transform = `translateX(-${i * 100}%)`;
+    }
+
+    function nextSlide() {
+      currentIndex = (currentIndex + 1) % total;
+      showSlide(currentIndex);
+    }
+
+    function prevSlide() {
+      currentIndex = (currentIndex - 1 + total) % total;
+      showSlide(currentIndex);
+    }
+
+    // autoplay
+    setInterval(nextSlide, 5000);
+
+    // touch support
+    let startX = 0;
+    const carousel = document.getElementById('carousel');
+    carousel.addEventListener('touchstart', e => startX = e.touches[0].clientX);
+    carousel.addEventListener('touchend', e => {
+      const endX = e.changedTouches[0].clientX;
+      if (startX - endX > 50) nextSlide();
+      else if (endX - startX > 50) prevSlide();
+    });
+  </script>
+
+</body>
+</html>
